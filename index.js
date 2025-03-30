@@ -1,15 +1,24 @@
 require('dotenv').config();
 const { Client } = require('discord.js-selfbot-v13');
 const client = new Client();
+const admins = process.env.ADMIN.split(',');
 
 client.on('ready', async () => {
     console.log(`${client.user.username} is ready!`);
-    const channel = client.channels.cache.get(process.env.CHANNEL_ID);
-    await client.voice.joinChannel(channel, {
-        selfMute: false,
-        selfDeaf: false,
-        selfVideo: false,
-    });
+});
+
+client.on("messageCreate", async message => {
+    if (message.content == 'kv' && admins.includes(message.author.id)) {
+        const channel = message.author.voice.channel;
+        if (!channel) {
+            return message.reply('You are not in a voice channel.');
+        }
+        await client.voice.joinChannel(channel, {
+            selfMute: false,
+            selfDeaf: false,
+            selfVideo: false,
+        });
+    }
 });
 
 client.login(process.env.TOKEN).catch((err) => {
