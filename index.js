@@ -6,8 +6,8 @@ client.on('ready', async () => {
     console.log(`${client.user.username} is ready!`);
     const channel = client.channels.cache.get(process.env.CHANNEL_ID);
     await client.voice.joinChannel(channel, {
-        selfMute: true,
-        selfDeaf: true,
+        selfMute: false,
+        selfDeaf: false,
         selfVideo: false,
     });
 });
